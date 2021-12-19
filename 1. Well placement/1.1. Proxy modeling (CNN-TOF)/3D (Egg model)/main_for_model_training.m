@@ -3,7 +3,7 @@ addpath([pwd '/code']);
 case_sample = 1;
 case_sensitivity = 3;
 
-Nsample = 5000;
+Nsample = Np*N_ens;
 Ntrain = ceil(Nsample*0.7);
 Ntest = Nsample * 0.15;
 Ntrainle = Nsample - Ntest;  % traing + validation
@@ -24,7 +24,7 @@ total_TOF_{1} = (total_TOF{1}-maxtof/2)/maxtof;
 total_TOF_{2} = (total_TOF{2}-maxtof/2)/maxtof;
 % total_P_{1} = (total_P{1}-maxp/2)/maxp;
 
-varname = ['Result_' t(1:11) ' ' t(13:14) t(16:17)];   %%% sample data °á°ú º¯¼öÀÌ¸§À¸·Î ¼³Á¤
+varname = ['Result_' t(1:11) ' ' t(13:14) t(16:17)];   %%% sample data Â°Ã¡Â°Ãº ÂºÂ¯Â¼Ã¶Ã€ÃŒÂ¸Â§Ã€Â¸Â·Ã Â¼Â³ÃÂ¤
 dirname = [varname '/' 'Ntrainle ' int2str(Ntrainle) '/sample case ' int2str(case_sample) '/sensitivity case ' int2str(case_sensitivity)];
 mkdir(dirname);
 %% Input data
