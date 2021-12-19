@@ -104,7 +104,7 @@ for p = 1:N_ens
         end
         
         Restart_converter_writting_batch(datafile, nsteps, 1:Np);
-        [~,~] = dos('$convert < Restart_converter.log > NUL');                              % ��ȯ��Ű��.
+        [~,~] = dos('$convert < Restart_converter.log > NUL');                              % º¯È¯½ÃÅ°±â.
         
         TOF_beg = [];
         TOF_end = [];
@@ -173,10 +173,10 @@ for p = 1:N_ens
             INPUT(:,:,2,j) = (reshape(TOF_beg(nx*ny+1:2*nx*ny,j),nx,ny)'-maxtof/2)/maxtof;
             INPUT(:,:,3,j) = (reshape(TOF_end(1:nx*ny,j),nx,ny)'-maxtof/2)/maxtof;
             INPUT(:,:,4,j) = (reshape(TOF_end(nx*ny+1:2*nx*ny,j),nx,ny)'-maxtof/2)/maxtof;
-%             INPUT(:,:,5,j) = (reshape(PRESS(1:nx*ny,j),nx,ny)'-maxp/2)/maxp;
-%             INPUT(:,:,6,j) = (reshape(PRESS(nx*ny+1:2*nx*ny,j),nx,ny)'-maxp/2)/maxp;
+            INPUT(:,:,5,j) = (reshape(PRESS(1:nx*ny,j),nx,ny)'-maxp/2)/maxp;
+            INPUT(:,:,6,j) = (reshape(PRESS(nx*ny+1:2*nx*ny,j),nx,ny)'-maxp/2)/maxp;
             
-            lr = 5;
+            lr = 7;
             INPUT(:,:,lr,j) = 0*ones(nx,ny);
             if isempty(type)
                 tp = pos(:,2*N+1:end);
