@@ -23,6 +23,8 @@ fid=fopen('Restart_converter.log', 'w');
             count=fprintf(fid, 'N \n');
         end
     end
+    fprintf(fid, 'N \n');
+    fprintf(fid, 'N \n');
  fclose('all');
  
  
