@@ -100,7 +100,7 @@ for p = 1:N_ens
         end
         
         Restart_converter_writting_batch(datafile, nsteps, 1:Np);
-        [~,~] = dos('$convert < Restart_converter.log > NUL');                              % ��ȯ��Ű��.
+        [~,~] = dos('$convert < Restart_converter.log > NUL');                              % º¯È¯½ÃÅ°±â.
         
         TOF_beg = [];
         TOF_end = [];
@@ -160,8 +160,8 @@ for p = 1:N_ens
             
             INPUT(:,:,1,j) = (reshape(TOF_beg(:,j),nx,ny)'-maxtof/2)/maxtof;
             INPUT(:,:,2,j) = (reshape(TOF_end(:,j),nx,ny)'-maxtof/2)/maxtof;
-%             INPUT(:,:,3,j) = (reshape(PRESS(:,j),nx,ny)'-maxp)/maxp;
-            INPUT(:,:,3,j) = 0*ones(nx,ny);
+            INPUT(:,:,3,j) = (reshape(PRESS(:,j),nx,ny)'-maxp)/maxp;
+            INPUT(:,:,4,j) = 0*ones(nx,ny);
             
             if isempty(type)
                 tp = pos(:,2*N+1:end);
@@ -171,9 +171,9 @@ for p = 1:N_ens
 
             for k = 1:N
                 if tp(j,k) >= 1/3
-                    INPUT(pos(j,2*k), pos(j,2*(k-1)+1), 3, j) = 1;
+                    INPUT(pos(j,2*k), pos(j,2*(k-1)+1), 4, j) = 1;
                 elseif tp(j,k) <= -1/3
-                    INPUT(pos(j,2*k), pos(j,2*(k-1)+1), 3, j) = -1;
+                    INPUT(pos(j,2*k), pos(j,2*(k-1)+1), 4, j) = -1;
                 end
             end
             
