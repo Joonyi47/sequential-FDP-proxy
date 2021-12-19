@@ -1,0 +1,29 @@
+WELSPECS
+'PROD1'   '1'   16   43  1* 'OIL' /
+'PROD2'   '1'   35   40  1* 'OIL' /
+'PROD3'   '1'   23   16  1* 'OIL' /
+'PROD4'   '1'   43   18  1* 'OIL' /
+'INJECT5' '1'   5    57  1* 'WATER' /
+'INJECT6' '1'   30   53  1* 'WATER' /
+'INJECT7' '1'   2    35  1* 'WATER' /
+'INJECT8' '1'   27   29  1* 'WATER' /
+'INJECT9' '1'   50   35  1* 'WATER' /
+'INJECT10' '1'   8    9   1* 'WATER' /
+'INJECT11' '1'   32   2   1* 'WATER' /
+'INJECT12' '1'   57   6   1* 'WATER' /
+/
+
+COMPDAT
+'PROD1'      2*    1     2 'OPEN' 2*     0.2 	1*          0 / 
+'PROD2'      2*    1     2 'OPEN' 2*     0.2 	1*          0 / 
+'PROD3'      2*    1     2 'OPEN' 2*     0.2 	1*          0 / 
+'PROD4'      2*    1     2 'OPEN' 2*     0.2	1*          0 / 
+'INJECT5'    2*    1     2 'OPEN' 2*     0.2 	1*          0 / 
+'INJECT6'    2*    1     2 'OPEN' 2*     0.2 	1*          0 /
+'INJECT7'    2*    1     2 'OPEN' 2*     0.2 	1*          0 /
+'INJECT8'    2*    1     2 'OPEN' 2*     0.2 	1*          0 /
+'INJECT9'    2*    1     2 'OPEN' 2*     0.2 	1*          0 /
+'INJECT10'    2*    1     2 'OPEN' 2*     0.2 	1*          0 /
+'INJECT11'    2*    1     2 'OPEN' 2*     0.2 	1*          0 /
+'INJECT12'    2*    1     2 'OPEN' 2*     0.2 	1*          0 /
+/

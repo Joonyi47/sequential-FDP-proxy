@@ -1,0 +1,89 @@
+function [SOIL] = GetSaturation(pos, type, contr, directory, datafile, permfile, net)
+global  N Nstep ...
+        N_ens ...
+        nx ny ...
+        discount_rate observed_term discount_term ...
+        Cw Po Cpw Ciw ...
+        samp_mean samp_std ...
+        pmax dstep tstep...
+        nsteps slstep ...
+        posfile constfile ...
+        ACTIVE ...
+        opt_pos opt_type ...
+        parameters
+
+
+% SOIL = cell(N_ens,1);
+SOIL = [];
+
+Np = size(pos,1);
+
+%% for parallel computing %%
+[home] =cd(directory);
+for p = 1:N_ens
+    fid = fopen([datafile '.DATA'], 'r');
+    total=100;
+    if fid == -1
+        disp('File open not successful')
+    end
+    Ecl=cell(300,300);
+    i=1;
+    while ~feof(fid)
+        Ecl{i} = fgetl(fid);
+        i=i+1;
+    end
+    row=find(strcmp(Ecl,'INCLUDE')==1,total);
+    for j = 1:Np
+        fid = fopen([datafile '_' int2str(j) '.DATA'], 'w');
+        for i = 1:i
+            if i == row(2,1)+1
+                fprintf(fid, '%s\n', [char(39)  permfile '_' int2str(p) '.DATA'  char(39) ' /']);
+            elseif i == row(3,1)+1
+                fprintf(fid, '%s\n', [char(39)  posfile '_' int2str(j) '.DATA'  char(39) ' /']);
+            elseif i == row(4,1)+1
+                fprintf(fid, '%s\n', [char(39)  constfile '_' int2str(j) '.DATA' char(39) ' /']);
+            else
+                fprintf(fid, '%s\n', Ecl{i});
+            end
+        end
+        fclose(fid);
+    end
+    
+    fclose('all');
+    
+    %%  Evaluate
+    
+    for j = 1:Np
+        Setwellpos([pos(j,:), opt_type], [posfile '_' int2str(j) '.DATA']);
+        Setwellcontrol([pos(j,:),  type(j,:), contr], [constfile '_' int2str(j) '.DATA']);
+        %         Setwellcontrol([pos(j,:), type], ['CONSTRAINT_' int2str(j) '.DATA']);
+        fclose('all');
+    end
+%         tic
+        parfor j = 1:Np
+            % get simulation result & evaluate fitness and violation
+            dos(['C:\ecl\2009.1\bin\pc\eclipse.exe ' datafile '_' int2str(j) ' > NUL']);
+        end
+%         toc;
+        delete('*.F*');
+%         Restart_converter_writting([datafile '_1'], 1, pmax/tstep);
+        Restart_converter_writting([datafile '_1'], pmax/tstep, pmax/tstep);
+        [~,~] = dos('$convert < Restart_converter.log > NUL');
+        for k = pmax/tstep:pmax/tstep
+        soil = 1 - [GetTOF([datafile '_1'], k, 'SWAT')];
+%         SOIL{p}= [SOIL{p}, soil];
+        end
+        delete('*.X*', '*.S*', '*.F*');
+        %         fitness = [fitness;-FOPT(end)];
+        
+    SOIL= [SOIL, soil];
+    
+end
+
+% delete all file except *.DATA, *.RSM
+delete('*.PRT', '*.EGRID','*.UNSMRY', '*.SMSPEC','*.ECLEND', '*.GRID', '*INIT');
+delete('*.S*', '*.F*', '*.X*');
+fclose('all');
+cd(home);
+
+end
