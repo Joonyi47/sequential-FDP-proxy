@@ -20,6 +20,8 @@ You can do the optimizations with the following steps. (Folder names represent e
     3. The number of sample data depends on the value in the [Np] variable
     4. The operation conditions depend on the values in the [wset] variable
     5. Set file name for saving sampled data at the end of the code
+   * you can download example [sample data](https://drive.google.com/file/d/1K1OI9K-0PSkzUMoxnXKcVvDtKsHR7Pyi/view?usp=share_link)
+   
 3) Run ‘main_for_model_training.m’ (recommended to run each section sequentially)
     1. In Initial conditions section, set [varname] variable same as the file name
     2. In Initial conditions section, set [Nall] variable same as the number of sample data
