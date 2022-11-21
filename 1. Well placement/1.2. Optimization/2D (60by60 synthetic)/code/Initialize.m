@@ -11,29 +11,29 @@ pos = []; vio = [];
 
 for i = 1:Np
     
-    tmp3 = (1)*radius^2;
+    violation = (1)*radius^2;
     
-    while tmp3 > thres(i,1)
+    while violation > thres(i,1)
         
-        tmp = randperm(nx*ny, N);
-        tmp = reshape([ceil(tmp'/ny); mod(tmp', ny) + (mod(tmp',ny) == 0)*ny], 1, 2*N);
+        loc_idx = randperm(nx*ny, N);
+        loc = reshape([ceil(loc_idx'/ny); mod(loc_idx', ny) + (mod(loc_idx',ny) == 0)*ny], 1, 2*N);
 
         if isempty(type)
 
-            tmp2 = [1/3 + 2/3*rand(1,1), -1 + 2*rand(1,N-1)];
-            tmp3 = constViolation(tmp, tmp2);
+            tp = [1/3 + 2/3*rand(1,1), -1 + 2*rand(1,N-1)];
+            violation = constViolation(loc, tp);
             
         else
             
-            tmp2 = [];
-            tmp3 = constViolation(tmp, type);
+            tp = [];
+            violation = constViolation(loc, type);
             
         end
                 
     end
         
-    pos = [pos; [tmp, tmp2]];
-    vio = [vio; tmp3];
+    pos = [pos; [loc, tp]];
+    vio = [vio; violation];
     
 end
 
