@@ -1,7 +1,7 @@
-function [type] = Initialize(p)
+function [operation] = Initialize(p)
 global N Nstep Np
 
-type = [];
+operation = [];
 vio  = [];
 
 thres = 3*ones(Np,1);
@@ -10,19 +10,19 @@ thres(randperm(Np,1*Np),1) = 0.001;
 h = waitbar(0,'Please wait...');
 for i = 1:Np
     
-    tmp2 = max(thres)+1;
+    violdation = max(thres)+1;
     
-    while tmp2 > thres(i,1)
+    while violdation > thres(i,1)
         
-        tmp = [rand(1,N)*ceil(N/3)/Nstep; rand(1,N); pi*rand(2,N)];
-        tmp = reshape(tmp, 1, 4*N);
+        opr = [rand(1,N)*ceil(N/3)/Nstep; rand(1,N); pi*rand(2,N)];
+        opr = reshape(opr, 1, 4*N);
         
-        tmp2 = constViolation(tmp);
+        violdation = constViolation(opr);
         
     end
     
-    type = [type; tmp];
-    vio  = [vio; tmp2];
+    operation = [operation; opr];
+    vio  = [vio; violdation];
     
     waitbar(i / Np)
     
