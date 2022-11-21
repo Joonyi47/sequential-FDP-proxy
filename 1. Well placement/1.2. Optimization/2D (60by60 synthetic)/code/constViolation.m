@@ -30,12 +30,7 @@ function [viot] = constViolation(pos, type)
   else
       V = [];
   end
-%   all_perm = nchoosek(1:sum(type), 2);
-%   V = [];
-%   for i = 1:size(all_perm,1)
-%       V = [V; radius^2 - (pdist([pWell.Dloc(all_perm(i,1),:); ...
-%           pWell.Dloc(all_perm(i,2),:)]))^2];
-%   end
+
   for i = 1:sum(type == 1)
       V = [V; radius^2 - min(abs(diff([repelem(pWell.Bloc,1,2);repmat(pWell.Dloc(i,:),1,2)])))^2];
   end

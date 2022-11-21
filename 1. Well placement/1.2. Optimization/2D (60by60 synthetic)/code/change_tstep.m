@@ -16,9 +16,7 @@ fid = fopen([filename '.DATA'], 'r');
     row=find(strcmp(Ecl,'TSTEP')==1,total);
     idx = zeros(1,200);
     idx(1,row+1) = 1;
-    
-%     for j = 1:Np
-%         fid = fopen([filename '_' int2str(j) '.DATA'], 'w');
+
         fid = fopen([filename '.DATA'], 'w');
         for i = 1:200
             if idx(i) == 1
@@ -28,7 +26,6 @@ fid = fopen([filename '.DATA'], 'r');
             end
         end
         fclose(fid);
-%     end
     
     fclose('all');
 
