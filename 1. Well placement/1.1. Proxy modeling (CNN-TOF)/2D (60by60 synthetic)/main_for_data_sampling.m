@@ -5,17 +5,32 @@
 %---------$   for 2D(60by60)  $------------%
 %------------------------------------------%
 
-%%% Run simulation %%%
+%% parameter settings
+%%%% parameters %%%%%
 clear; addpath(pwd); addpath([pwd '/code']);
 copyfile('data/*.*', pwd);
 global Po Ciw Cpw discount_rate discount_term observed_term ... 
-       Cw N N_ens N_iter ...
+       Cw N N_ens Np ...
        nx ny dx dy ...
        area ...
        dtstep pmax ...
        slstep nsteps ...
-   
+       direc_var  direc_fig ...
+       posfile constfile
 
+%%% sample parameters %%%
+Np = 5000;              % # of samples for each ensemble
+N_ens  = 10;            % # of perm. fields
+
+%%% field parameters %%%
+N = 14;                 % # of wells
+nx = 60;                % # of grids. x-direction
+ny = 60;
+dx = 120;               % [ft]
+dy = 120;
+area = 40;              % [acres]
+
+%%% NPV parameters %%%
 Po  = 60;               % oil price
 Ciw = 5;                % water injection cost
 Cpw = 3;                % water disposal cost
@@ -23,31 +38,14 @@ discount_rate = 0.1;
 discount_term = 365;
 observed_term = 30;
 Cw = 0E+06;             % drilling cost
-N = 14;                 % # of wells
-N_ens  = 10;            % # of perm. fields
-N_iter = 50;
-nx = 60;                % # of grids. x-direction
-ny = 60;
-dx = 120;               % [ft]
-dy = 120;
-area = 40;              % [acres]
 
+%%% simulation parameters %%%
 slstep = 30;            % time for streamline tracing
-nsteps = 1;             % # of calculations for obtaining pressure field at slstep
-dtstep = 30;             % time step step
+nsteps = 1;             % # of calculations at slstep
+dtstep = 30;            % time step
 pmax = 7200;
 
-load 'PERMX5.mat';
-load 'PERMX5_selected_idx.mat';
-
-%% make training set
-%%%% parameters %%%%%
-global Np ...
-       direc_var  direc_fig ...
-       posfile constfile
-
-Np = 50;
-
+%%% file & directory names %%%
 directory = 'simulation';
 direc_var = 'variables';
 direc_fig = 'Figures';
@@ -57,7 +55,10 @@ permfile  = '2D_PERMX';
 posfile   = '2D_POSITION';
 constfile = '2D_CONSTRAINT';
 
-
+%%% load permbeability %%%
+load 'PERMX5.mat';
+load 'PERMX5_selected_idx.mat';
+%% make training set
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Initialize %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 disp('now initialization');
 mkdir(directory); copyfile(fullfile('*.DATA'), directory);
@@ -76,7 +77,9 @@ wset = [1500, 1500, 5500, 5500];  % Prod. BHP(psi), Inj. BHP(psi)
 
 %%%%%%%%%%%%%%%%%%%%%% Simulate sample data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-pos_fit = []; pos_vio = []; pos_tcpu = []; pos_mat = []; pos_mat2 = []; tof_mat = []; total_TOF = cell(1,2); total_P = cell(1,1); t_ecl = []; t_frs = [];
+pos_fit = []; pos_vio = []; pos_tcpu = []; pos_mat = []; pos_mat2 = []; 
+tof_mat = []; total_TOF = cell(1,2); total_P = cell(1,1); 
+t_ecl = []; t_frs = [];
 for j = 1:N_ens
     disp(['now iteration ' int2str(j)]);
     
