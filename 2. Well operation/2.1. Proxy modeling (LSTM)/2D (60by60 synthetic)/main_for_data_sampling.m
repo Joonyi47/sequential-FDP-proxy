@@ -11,35 +11,44 @@
 clear; addpath(pwd); addpath([pwd '/code']);
 copyfile('data/*.*', pwd);
 global Po Ciw Cpw discount_rate discount_term observed_term ... 
-       Cw N Nmax Nstep N_ens N_iter N_scale ...
+       Cw N Np Nmax Nstep N_ens N_iter N_scale ...
        nx ny dx dy...
        range ...
        area ...
        dstep tstep pmax ...
        opt_pos opt_type
 
+%%% sample parameters %%%
+Np = 500;
+N_ens = 10;             % # of perm.fields
+
+%%% field parameters %%%
+Nmax = 14;              % # of wells
+nx = 60;                % # of grids. x-direction
+ny = 60;
+dx = 120;
+dy = 120;
+area = 40;
+
+%%% NPV parameters %%%
 Po  = 60;
 Ciw = 5;
 Cpw = 3;
 discount_rate = 0.1;
 discount_term = 365;
 observed_term = 30;
-Cw = 2E+06;
-Nmax = 14;  % # of wells
-N_ens  = 10;  % # of perm. fields
-N_iter = 50;
-N_scale = 3;    % upscaling ratio 
-nx = 60;   % original scale
-ny = 60;
-dx = 120;
-dy = 120;
-area = 40;
-range = [-4 4];
+Cw = 2E+06;             % drilling cost
 
+%%% simulation parameters %%%
 tstep = 30;
-dstep = 90;
+dstep = 90;             % drilling term (step)
 pmax = 7200;
 Nstep = pmax/dstep;
+
+%%% scaling parameters%%%
+N_iter = 50;
+N_scale = 3;    % upscaling ratio 
+range = [-4 4];
 
 load 'PERMX5.mat';
 load 'PERMX5_selected_idx.mat';
